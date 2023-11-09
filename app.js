@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var guitarRouter = require('./routes/guitar');
 var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
+var resourceRouter = require('./routes/resource');
 
 var app = express();
 
@@ -27,11 +28,12 @@ app.use('/users', usersRouter);
 app.use('/guitar',guitarRouter);
 app.use('/board', boardRouter);
 app.use('/choose',chooseRouter);
+app.use('/resource',resourceRouter);
 
 require('dotenv').config();
 const connectionString = process.env.MONGO_CON
 mongoose = require('mongoose');
-mongoose.connect(connectionString);
+mongoose.connect(connectionString);45
 
 //Get the default connection
 var db = mongoose.connection;
@@ -40,7 +42,7 @@ db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
 db.once("open", function(){
 console.log("Connection to DB succeeded")});
 
-var Guitar = require("./models/ Guitar");
+var Guitar = require("./models/Guitar");
 
 // We can seed the collection if needed on
 
@@ -48,8 +50,7 @@ async function recreateDB(){
 // Delete everything
 await Guitar.deleteMany();
 let instance1 = new
-Guitar({type:"Acoustic", cost:45088,
-material:"tonewoods"});
+Guitar({type:"Acoustic", cost:45088,material:"tonewoods"});
 instance1.save().then(doc=>{
 console.log("First object saved")}
 ).catch(err=>{
@@ -57,8 +58,7 @@ console.error(err)
 });
 
 let instance2 = new
-Guitar({type:"Electric", cost: 12789,
-material: "maple"});
+Guitar({type:"Electric", cost: 12789,material: "maple"});
 instance2.save().then(doc=>{
 console.log("Second object saved")}
 ).catch(err=>{
@@ -66,8 +66,7 @@ console.error(err)
 });
 
 let instance3 = new
-Guitar({type:"Classical", cost: 45000,
-material: "synthetic"});
+Guitar({type:"Classical", cost: 45000,material: "synthetic"});
 instance3.save().then(doc=>{
 console.log("Third object saved")}
 ).catch(err=>{
@@ -95,6 +94,8 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
 
 
 
