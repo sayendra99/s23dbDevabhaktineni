@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  - let result = [{type: "Acoustic", cost: 45088, material: "tonewoods" },{ type: "Electric", cost: 12789, material: "maple" },{ type: "Classical", cost: 45000, material: "synthetic" }]
+  div.container-fluid
+    div.row
+      each guitar,index in result
+       div.col-sm-2(onclick=`buy(${index})`) #{guitar.type}
+       div.col-sm-2(onclick=`buy(${index})`) #{guitar.cost}
+       div.col-sm-2(onclick=`buy(${index})`) #{guitar.material}
+       br
+       hr
+       
+
+
+
+
