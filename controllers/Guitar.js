@@ -1,47 +1,47 @@
 var Guitar = require('../models/Guitar');
 // List of all Guitars
-exports.Guitar_list = async function(req, res) {
-    try{
+exports.Guitar_list = async function (req, res) {
+    try {
         theGuitars = await Guitar.find();
         res.send(theGuitars);
-        }
-        catch(err){
+    }
+    catch (err) {
         res.status(500);
         res.send(`{"error": ${err}}`);
-        }
+    }
 };
-    
+
 // for a specific Guitar.
-exports.Guitar_detail = function(req, res) {
-res.send('NOT IMPLEMENTED: Guitar detail: ' + req.params.id);
+exports.Guitar_detail = function (req, res) {
+    res.send('NOT IMPLEMENTED: Guitar detail: ' + req.params.id);
 };
 
 // Handle Guitar delete form on DELETE.
-exports.Guitar_delete = function(req, res) {
-res.send('NOT IMPLEMENTED: Guitar delete DELETE ' + req.params.id);
+exports.Guitar_delete = function (req, res) {
+    res.send('NOT IMPLEMENTED: Guitar delete DELETE ' + req.params.id);
 };
 // Handle Guitar update form on PUT.
-exports.Guitar_update_put = function(req, res) {
-res.send('NOT IMPLEMENTED: Guitar update PUT' + req.params.id);
+exports.Guitar_update_put = function (req, res) {
+    res.send('NOT IMPLEMENTED: Guitar update PUT' + req.params.id);
 };
 
 // VIEWS
 // Handle a show all view
-exports.Guitar_view_all_Page = async function(req, res) {
-    try{
-    console.log("IN")
-    theGuitars = await Guitar.find();
-    console.log(theGuitars)
-    res.render('Guitar', { title: 'Search Results - Guitars', results: theGuitars });
+exports.Guitar_view_all_Page = async function (req, res) {
+    try {
+        console.log("IN")
+        theGuitars = await Guitar.find();
+        console.log(theGuitars)
+        res.render('Guitar', { title: 'Search Results - Guitars', results: theGuitars });
     }
-    catch(err){
-    //res.status(500);
-    res.send(`{"error": ${err}}`);
+    catch (err) {
+        //res.status(500);
+        res.send(`{"error": ${err}}`);
     }
 }
 
 // Handle Guitar create on POST.
-exports.Guitar_create_post = async function(req, res) {
+exports.Guitar_create_post = async function (req, res) {
     console.log(req.body)
     let document = new Guitar();
     // We are looking for a body, since POST does not have query parameters.
@@ -51,12 +51,43 @@ exports.Guitar_create_post = async function(req, res) {
     document.type = req.body.type;
     document.cost = req.body.cost;
     document.material = req.body.material;
-    try{
-    let result = await document.save();
-    res.send(result);
+    try {
+        let result = await document.save();
+        res.send(result);
     }
-    catch(err){
-    res.status(500);
-    res.send(`{"error": ${err}}`);
+    catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
     }
-    };
+};
+// for a specific guitars.
+exports.Guitar_detail = async function (req, res) {
+    console.log("detail" + req.params.id)
+    try {
+        result = await Guitar.findById(req.params.id)
+        res.send(result)
+    } catch (error) {
+        res.status(500)
+        res.send(`{"error": document for id ${req.params.id} not found`);
+    }
+};
+// Handle Guitar update form on PUT.
+exports.Guitar_update_put = async function (req, res) {
+    console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+    try {
+        let toUpdate = await Guitar.findById(req.params.id)
+        // Do updates of properties
+        if (req.body.type)
+            toUpdate.type = req.body.type;
+        if (req.body.cost) toUpdate.cost = req.body.cost;
+        if (req.body.material) toUpdate.material = req.body.material;
+        let result = await toUpdate.save();
+        console.log("Sucess " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+    }
+};
