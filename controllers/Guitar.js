@@ -17,9 +17,81 @@ exports.Guitar_detail = function (req, res) {
 };
 
 // Handle Guitar delete form on DELETE.
-exports.Guitar_delete = function (req, res) {
-    res.send('NOT IMPLEMENTED: Guitar delete DELETE ' + req.params.id);
+//exports.Guitar_delete = function (req, res) {
+    //res.send('NOT IMPLEMENTED: Guitar delete DELETE ' + req.params.id);
+//};
+
+// Handle Guitar delete on DELETE.
+exports.Guitar_delete = async function(req, res) {
+console.log("delete " + req.params.id)
+try {
+result = await Guitar.findByIdAndDelete( req.params.id)
+console.log("Removed " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": Error deleting ${err}}`);
+}
 };
+
+// Handle a show one view with id specified by query
+exports.Guitar_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await Guitar.findById( req.query.id)
+    res.render('Guitardetail', { title: 'Guitar Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
+// Handle building the view for creating a Guitar.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.Guitar_create_Page = function(req, res) {
+console.log("create view")
+try{
+res.render('Guitarcreate', { title: 'Guitar Create'});
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+
+
+// Handle building the view for updating a Guitar.
+// query provides the id
+exports.Guitar_update_Page = async function(req, res) {
+console.log("update view for item "+req.query.id)
+try{
+let result = await Guitar.findById(req.query.id)
+res.render('Guitarupdate', { title: 'Guitar Update', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+// Handle a delete one view with id from query
+exports.Guitar_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await Guitar.findById(req.query.id)
+    res.render('Guitardelete', { title: 'Guitar Delete', toShow:
+    result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
+
 // Handle Guitar update form on PUT.
 exports.Guitar_update_put = function (req, res) {
     res.send('NOT IMPLEMENTED: Guitar update PUT' + req.params.id);
