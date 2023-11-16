@@ -8,7 +8,15 @@ a {
 }
 
 .GuitarAttr {
-  background-color: aquamarine;
+  background-color: #ADD8E6; /* Light Blue */
   width: 120px;
-  }
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  color: #333; /* Text color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  /* Add any additional styles as needed */
+}
+
   

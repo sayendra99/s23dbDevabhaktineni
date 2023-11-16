@@ -1,21 +1,24 @@
 extends layout
 
 block content
- h1= title
- - let Guitarid = toShow._id
- - let Guitartype = toShow.type
- - let Guitarcost = toShow.cost
- - let Guitarmaterial = toShow.material
- div
-  div.row
-   div(class='GuitarAttr mr-3') Guitar ID is:
-   div #{Guitarid}
-  div.row
-   div(class='GuitarAttr mr-3') Guitar Type is:
-   div #{Guitartype}
-  div.row
-   div(class='GuitarAttr mr-3') Guitar Size is:
-   div #{Guitarcost}
-   div.row
-    div(class='GuitarAttr mr-3') Guitar Cost is:
-    div #{Guitarmaterial}
+  h1= title
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let Guitarid = toShow._id
+    - let Guitartype = toShow.type
+    - let Guitarcost = toShow.cost
+    - let Guitarmaterial = toShow.material
+    div
+      div.row
+        div(class='GuitarAttr mr-3') Guitar ID is:
+        div #{Guitarid}
+      div.row
+        div(class='GuitarAttr mr-3') Guitar Type is:
+        div #{Guitartype}
+      div.row
+        div(class='GuitarAttr mr-3') Guitar Size is:
+        div #{Guitarcost}
+      div.row
+        div(class='GuitarAttr mr-3') Guitar Cost is:
+        div #{Guitarmaterial}
