@@ -2,6 +2,8 @@ var express = require('express');
 const Guitar_controlers= require('../controllers/Guitar')
 var router = express.Router();
 
+
+router.get('/', Guitar_controlers.Guitar_view_all_Page);
 /* GET detail Guitar page */
 router.get('/detail', Guitar_controlers.Guitar_view_one_Page);
 
