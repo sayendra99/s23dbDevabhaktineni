@@ -2,17 +2,12 @@ extends layout
 
 block content
   h1= title
-  - let result = [{type: "Acoustic", cost: 45088, material: "tonewoods" },{ type: "Electric", cost: 12789, material: "maple" },{ type: "Classical", cost: 45000, material: "synthetic" }]
+  - let result = results
   div.container-fluid
     div.row
-      each guitar,index in result
-       div.col-sm-2(onclick=`buy(${index})`) #{guitar.type}
-       div.col-sm-2(onclick=`buy(${index})`) #{guitar.cost}
-       div.col-sm-2(onclick=`buy(${index})`) #{guitar.material}
-       br
-       hr
-       
-
-
-
-
+      each guitar, index in result
+        div.col-sm-2(onclick=`buy(${index})`)
+          p #{guitar.type}
+          p #{guitar.cost}
+          p #{guitar.material}
+          button.btn.btn-primary.ml-1(onclick=`update(${index})`) Update
