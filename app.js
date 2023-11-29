@@ -17,7 +17,7 @@ var resourceRouter = require('./routes/resource');
 
 var app = express();
 
-var Account =require('./models/Account');
+var Account = require('./models/account');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -100,7 +100,24 @@ async function recreateDB() {
 let reseed = true;
 if (reseed) { recreateDB(); }
 
-
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    Account.findOne({ username: username })
+      .then(function (err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.validPassword(password)) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      })
+      .catch(function (err) {
+        return done(err)
+      })
+  })
+)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -121,24 +138,6 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 
-passport.use(new LocalStrategy(
-  function (username, password, done) {
-    Account.findOne({ username: username })
-      .then(function (user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-      })
-      .catch(function (err) {
-        return done(err)
-      })
-  })
-)
 
 
 
