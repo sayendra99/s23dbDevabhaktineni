@@ -1,21 +1,15 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  button(class= "btn btn-success" onclick="goFaster()") Click me to go faster
-  br 
-  br
-  div(id="faster") Increase the speed
-  
-  script.
-      var mph = 20;
-      var change = 1;
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/guitar") Take me to guitar
+    br
+    a(href="/logout") Logout
 
-      function goFaster() {
-        mph += change;
-        change += 1;
-        document.getElementById("faster").innerHTML = `MPH ${mph} with change ${change}`;
-        }
 
   
