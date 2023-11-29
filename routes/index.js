@@ -1,67 +1,67 @@
 var express = require('express');
 var passport = require('passport');
 var router = express.Router();
-var Account = require('../models/account');
+var Account = require('../models/account'); 
 router.get('/', function (req, res) {
-  res.render('index', { title: 'guitar App', user: req.user });
+  res.render('index', { title: 'Guitar App', user: req.user });
 });
+
 router.get('/register', function (req, res) {
-  res.render('register', { title: 'guitar App Registration' });
+  res.render('register', { title: 'Guitar App Registration' });
 });
+
 router.post('/register', function (req, res) {
   Account.findOne({ username: req.body.username })
     .then(function (user) {
-      if (user != null) {
-        console.log("exists " + req.body.username)
+      if (user) {
+        console.log("User already exists: " + req.body.username);
         return res.render('register', {
           title: 'Registration',
-          message: 'Existing User', account: req.body.username
-        })
+          message: 'User already exists',
+          Account: req.body.username
+        });
       }
+
       let newAccount = new Account({ username: req.body.username });
       Account.register(newAccount, req.body.password, function (err, user) {
         if (err) {
-          console.log("db creation issue " + err)
+          console.error("Database creation issue: " + err);
           return res.render('register', {
             title: 'Registration',
-            message: 'access error', account: req.body.username
-          })
+            message: 'Database creation issue',
+            Account: req.body.username
+          });
         }
-        if (!user) {
-          return res.render('register', {
-            title: 'Registration',
-            message: 'access error', account: req.body.username
-          })
-        }
-      })
-      console.log('Sucess, redirect');
-      res.redirect('/');
+
+        console.log('Registration successful, redirecting...');
+        res.redirect('/login'); // Redirect to login after successful registration
+      });
     })
     .catch(function (err) {
+      console.error("Registration error: " + err);
       return res.render('register', {
         title: 'Registration',
-        message: 'Registration error', account: req.body.username
-      })
-    })
+        message: 'Registration error',
+        Account: req.body.username
+      });
+    });
 });
 
 router.get('/login', function (req, res) {
-  res.render('login', { title: 'guitar App Login', user: req.user });
+  res.render('login', { title: 'Guitar App Login', user: req.user });
 });
+
 router.post('/login', passport.authenticate('local'), function (req, res) {
-  res.redirect('/');
+  res.redirect('/'); // Redirect to the home page after successful login
 });
+
 router.get('/logout', function (req, res) {
-  req.logout(function (err) {
-    if (err) { return next(err); }
-    res.redirect('/');
-  });
+  req.logout(); // Simply logout without a callback function
+  res.redirect('/'); // Redirect to the home page after logout
 });
+
 router.get('/ping', function (req, res) {
   res.status(200).send("pong!");
 });
-module.exports = router;
-router.get('/ping', function (req, res) {
-  res.status(200).send("pong!");
-});
+
 module.exports = router;
