@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  form(id='GuitarForm', action="/resource/Guitars", method="POST")
+  form(id='GuitarForm', action="/resource/Guitar", method="POST")
     div.form-group
       label.GuitarAttr(for='type') type
       input#type(type='text', name='type')
