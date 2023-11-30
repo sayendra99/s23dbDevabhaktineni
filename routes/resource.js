@@ -8,14 +8,14 @@ var Guitar_controller = require('../controllers/Guitar');
 router.get('/', api_controller.api);
 /// Guitar ROUTES ///
 // POST request for creating a Guitar.
-router.post('/Guitars', Guitar_controller.Guitar_create_post);
+router.post('/Guitar', Guitar_controller.Guitar_create_post);
 // DELETE request to delete Guitar.
-router.delete('/Guitars/:id', Guitar_controller.Guitar_delete);
+router.delete('/Guitar/:id', Guitar_controller.Guitar_delete);
 // PUT request to update Guitar.
-router.put('/Guitars/:id', Guitar_controller.Guitar_update_put);
+router.put('/Guitar/:id', Guitar_controller.Guitar_update_put);
 // GET request for one Guitar.
-router.get('/Guitars/:id', Guitar_controller.Guitar_detail);
+router.get('/Guitar/:id', Guitar_controller.Guitar_detail);
 // GET request for list of all Guitar items.
-router.get('/Guitars', Guitar_controller.Guitar_list);
+router.get('/Guitar', Guitar_controller.Guitar_list);
 module.exports = router;
 
