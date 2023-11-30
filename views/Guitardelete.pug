@@ -8,7 +8,7 @@ block content
     - let type = toShow.type
     - let Guitarcost = toShow.cost
     - let material = toShow.material
-    - let actionid = "/resource/Guitars/" + Guitarid
+    - let actionid = "/resource/Guitar/" + Guitarid
     script.
       let actionid = "#{actionid}"
     div
@@ -34,15 +34,16 @@ block content
       }
     script.
       function deleteOnid() {
+
         console.log("starting delete")
         // delete first
         fetch(actionid, {
           method: 'DELETE' // Don't need a body for the delete
         }).then((resp) => {
-          return resp.json(); // or resp.text() or whatever the server sends
+          return resp.text(); // or resp.text() or whatever the server sends
         }).then((body) => {
           alert("Delete succeeded")
-          window.location.href='/Guitars'
+          window.location.href='/Guitar'
           // TODO handle body
         }).catch((error) => {
           // TODO handle error
