@@ -9,5 +9,5 @@ accountSchema.plugin(passportLocalMongoose);
 // We export the Schema to avoid attaching the model to the
 // default mongoose connection.
 //module.exports = mongoose.models("Account", accountSchema);
-const Account = mongoose.model('Account', accountSchema);
+const Account = mongoose.model('account', accountSchema);
 module.exports = Account;
