@@ -1,13 +1,35 @@
+//- extends layout
+
+//- block content
+//-   h1= title
+//-   - let result = results
+//-   div.container-fluid
+//-     div.row
+//-       each guitar, index in result
+//-         div.col-sm-2(onclick=`buy(${index})`)
+//-           p #{guitar.type}
+//-           p #{guitar.cost}
+//-           p #{guitar.material}
+//-             button.btn( class="btn-primary ml-1",  onclick= `dispatch(\"/guitar/update?id=${item._id}\")`) Update
 extends layout
 
 block content
   h1= title
-  - let result = results
-  div.container-fluid
-    div.row
-      each guitar, index in result
-        div.col-sm-2(onclick=`buy(${index})`)
-          p #{guitar.type}
-          p #{guitar.cost}
-          p #{guitar.material}
-          button.btn.btn-primary.ml-1(onclick=`update(${index})`) Update
+  - let items = results
+  button.btn(class="btn-success", onclick=`dispatch(\"/guitar/create")`) Create
+  div(class="container-fluid")
+    div(class="row m-1")
+      each item, index in items
+        - let destination = `dispatch(\"/guitar/update?id=${item._id}\")`
+        div(class="col-sm-2 m-1")
+          button.btn(class="btn-primary ml-1", onclick=`dispatch(\"/guitar/update?id=${item._id}\")`) Update
+          button.btn(class="btn-danger ml-1", onclick=`dispatch(\"/guitar/delete?id=${item._id}\")`) Delete
+          button.btn(class="btn-warning ml-1", onclick=`dispatch(\"/guitar/detail?id=${item._id}\")`) Detail
+          p Name is #{item.type}
+          p Type is #{item.cost}
+          p Cost is #{item.material}
+          //- Bonus Logic
+  script.
+    dispatch = (path) => {
+      window.location.href = path
+    }
