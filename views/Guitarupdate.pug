@@ -11,19 +11,33 @@ block content
     div.row(class='mb-2')
       div.mr-1 ID is
       div #{Guitarid}
-    - let actionid = "/resource/Guitars/" + Guitarid
+    - let actionid = "/resource/Guitar/" + Guitarid
     form(id='GuitarForm', action= actionid, method="PUT")
       div.form-group
         label.GuitarAttr(for='type') Guitar type
         input#type(type='text', name='type', value= type )
       div.form-group
-        label.GuitarAttr(for='material') Guitar material
-        input#material(type='text', name='material', value= material )
-      div.form-group
         label.GuitarAttr(for='cost') Guitar cost
         input#cost(type='number', name='cost', value= cost )
+      div.form-group
+        label.GuitarAttr(for='material') Guitar material
+        input#material(type='text', name='material', value= material )
         input(type="submit")
     script.
       document.forms['GuitarForm'].addEventListener('submit', (event) => {
-        event.preventDefault();
+      event.preventDefault();
+     // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method:'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeded")
+        window.location.href='/Guitar'
+     // TODO handle body
+      }).catch((error) => {
+     // TODO handle error
+        alert("Update failed " + error )
+      });
       });
